@@ -31,6 +31,12 @@ def family_color(family):
             return 'mediumaquamarine'
         case 'Agrarian':
             return 'olivedrab'
+        case 'Israel':
+            return 'blue'
+        case 'Canada':
+            return 'maroon'
+        case 'LatAm':
+            return 'peru'
         case _:
             return "dimgrey"
 
@@ -41,7 +47,10 @@ def visualizeFile(set, this_year):
 
     df = pd.read_csv(fileName)
     # get data
-    info = df.loc[df["year"] == this_year, ["country", "party", "family", "lrecon", "galtan"]].dropna()
+    try:
+        info = df.loc[df["year"] == this_year, ["country", "party", "family", "lrecon", "galtan"]].dropna()
+    except KeyError:
+        info = df.loc[df["year"] == this_year, ["country", "party", "lrecon", "galtan"]].dropna()
     info["lrecon"] = pd.to_numeric(info["lrecon"], errors="coerce")
     info["galtan"] = pd.to_numeric(info["galtan"], errors="coerce")
 
@@ -49,16 +58,25 @@ def visualizeFile(set, this_year):
     fig, ax = plt.subplots(figsize=(12, 7), num=f"Data for {set} in {this_year}")
     ax.axvline(x=5, color='black', linewidth=1.5, linestyle='-')
     ax.axhline(y=5, color='black', linewidth=1.5, linestyle='-')
-    ax.set_title(f"Data for {set} in {this_year}", fontsize=8)
-    sc = ax.scatter(info["lrecon"], info["galtan"],
-                    c=info["family"].apply(family_color),alpha=0.1, picker=True, s=60)
+    ax.set_title(f"Data for {set} in {this_year}")
+    try:
+        sc = ax.scatter(info["lrecon"], info["galtan"],
+                        c=info["family"].apply(family_color),alpha=0.1, picker=True, s=60)
+    except KeyError:
+        sc = ax.scatter(info["lrecon"], info["galtan"],
+                        c=family_color(set), alpha=0.1, picker=True, s=60)
 
-    for _, row in info.iterrows():
-        ax.text(row["lrecon"]-0.02, row["galtan"]+0.01, row["party"],
-                fontsize=5, color=family_color(row["family"]), alpha=0.8)
+    try:
+        for _, row in info.iterrows():
+            ax.text(row["lrecon"]-0.02, row["galtan"]+0.01, row["party"],
+                    fontsize=5, color=family_color(row["family"]), alpha=0.8)
+    except KeyError:
+        for _, row in info.iterrows():
+            ax.text(row["lrecon"]-0.02, row["galtan"]+0.01, row["party"],
+                    fontsize=5, color=family_color(set), alpha=0.8)
 
-    ax.set_xlabel("Economic Left–Right (lrecon)")
-    ax.set_ylabel("Social Progressive–Conservative (galtan)")
+    ax.set_xlabel("Economic Left–Right")
+    ax.set_ylabel("Social Progressive–Conservativ")
     annot = ax.annotate(
         "", xy=(0, 0), xytext=(10, 10), textcoords="offset points",
         bbox=dict(boxstyle="round,pad=0.1", fc="white", alpha=0.9),
@@ -84,7 +102,7 @@ def visualizeFile(set, this_year):
 
 
 
-visualizeFile("Europe (historic)", 1999)
+
 
 
 
