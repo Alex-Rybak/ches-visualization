@@ -50,10 +50,10 @@ for file in files:
 
     kNN_class.fit(euro_train, europe_fam)
     predicted_fam = kNN_class.predict(this_train)
-    this_df.insert(6,"Family",predicted_fam)
+    this_df.insert(6,"family",predicted_fam)
     print(this_df)
     this_csv = file.split('.')[0]+"_p.csv"
-    this_df.to_csv(this_csv, sep='\n', encoding='utf-8')
+    this_df.to_csv(this_csv, encoding='utf-8')
 
         
         

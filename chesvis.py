@@ -3,9 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 plt.style.use('_mpl-gallery')
-files = {"Canada": "CA_data.csv", "Canada (provinces)":"CA_prov_data.csv","Europe": "EU_data.csv",
-         "Europe (historic)":"EU_hist_data.csv", "Israel": "IL_data.csv",
-         "LatAm":"LA_data.csv"}
+files = {"Canada": "CA_data_p.csv", "Canada (provinces)":"CA_prov_data_p.csv","Europe": "EU_data.csv",
+         "Europe (historic)":"EU_hist_data.csv", "Israel": "IL_data_p.csv","LatAm":"LA_data_p.csv"}
 
 
 def family_color(family):
