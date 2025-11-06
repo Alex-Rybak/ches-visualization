@@ -1,10 +1,9 @@
-# q1.a.i
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
 plt.style.use('_mpl-gallery')
-files = {"Canada": "CA_data.csv", "Europe": "EU_data.csv",
+files = {"Canada": "CA_data.csv", "Canada (provinces)":"CA_prov_data.csv","Europe": "EU_data.csv",
          "Europe (historic)":"EU_hist_data.csv", "Israel": "IL_data.csv",
          "LatAm":"LA_data.csv"}
 
@@ -46,8 +45,8 @@ def visualizeFile(countries, years):
     for set in countries:
         fileName = files[set]
         this_df = pd.read_csv(fileName)
-        if "family" not in this_df.columns:
-            this_df["family"] = this_df["country"]
+        #if "family" not in this_df.columns:
+        #    this_df["family"] = this_df["country"]
         df = pd.concat([df, this_df], ignore_index=True)
     info = pd.DataFrame()
     # get data

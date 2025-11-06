@@ -10,7 +10,7 @@ sets = input("Enter the regions with \", \" between them: ").split(", ")
 print(sets)
 years = []
 for set in sets:
-    if set == "Israel" or set == "Europe (historic)":
+    if set == "Israel" or set == "Europe (historic":
         years += input("Enter the years you wish to see data for: ").split(", ")
     else:
         years.append(countries_years[set])
