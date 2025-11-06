@@ -16,7 +16,7 @@ def family_color(family):
         case "Liberal":
             return 'goldenrod'
         case "ChristDem":
-            return 'darkorange'
+            return 'peru'
         case "SocDem":
             return 'crimson'
         case "Socialist":
