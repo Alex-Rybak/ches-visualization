@@ -36,7 +36,7 @@ euro_data = preprocess(europe_df,europe_columns) # data suitable for our needs
 europe_columns=list(euro_data.columns) # new list of columns
 
 for file in files:
-    kNN_class = KNeighborsClassifier(n_neighbors=3)
+    kNN_class = KNeighborsClassifier(n_neighbors=2)
     this_df = pd.read_csv(file)
     this_columns = list(this_df.columns)
     this_data = preprocess(this_df,this_columns)

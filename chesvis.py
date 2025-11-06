@@ -39,7 +39,7 @@ def family_color(family):
             return 'peru'
 
 
-def visualizeFile(countries, years):
+def visualizeFile(countries, years,showYears=False):
     df = pd.DataFrame()
     for set in countries:
         fileName = files[set]
@@ -68,10 +68,10 @@ def visualizeFile(countries, years):
 
 
     for _, row in info.iterrows():
-        if len(years)==1:
-            label = row["party"]
-        else:
+        if showYears:
             label = row["party"] + '\n' + str(row["year"])
+        else:
+            label = row["party"]
 
         ax.text(row["lrecon"]-0.02, row["galtan"]+0.01, label,
                     fontsize=5, color=family_color(row["family"]), alpha=0.8)
