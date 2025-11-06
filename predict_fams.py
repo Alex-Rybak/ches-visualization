@@ -29,14 +29,14 @@ def preprocess(df,columns): # function that renders data into form suitable for 
     useful = pd.DataFrame(imputer.fit_transform(useful), columns=list(useful.columns))
     return useful
 
-europe_df = pd.read_csv("EU_data.csv") # dataset with EU data
+europe_df = pd.read_csv("EU_hist_data.csv") # dataset with EU data
 europe_fam = europe_df["family"] # families from EU data
 europe_columns=list(europe_df.columns) # list of columns
 euro_data = preprocess(europe_df,europe_columns) # data suitable for our needs
 europe_columns=list(euro_data.columns) # new list of columns
 
 for file in files:
-    kNN_class = KNeighborsClassifier(n_neighbors=2)
+    kNN_class = KNeighborsClassifier(n_neighbors=5)
     this_df = pd.read_csv(file)
     this_columns = list(this_df.columns)
     this_data = preprocess(this_df,this_columns)
