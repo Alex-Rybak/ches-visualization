@@ -1,8 +1,8 @@
 from chesvis import visualizeFile
 import pandas as pd
 
-countries_years = {"Canada": 2023, "Canada (provinces)":2023,"Europe": 2024
-        "Europe (predicted)": 2024,"Europe (historic, predicted)":[]
+countries_years = {"Canada": 2023, "Canada (provinces)":2023,"Europe": 2024,
+        "Europe (predicted)": 2024,"Europe (historic, predicted)":[],
          "Europe (historic)":[], "Israel": [],
          "LatAm":2020}
 
