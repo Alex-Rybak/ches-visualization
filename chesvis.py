@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 
 plt.style.use('_mpl-gallery')
 files = {"Canada": "data_predicted/CA_data_p.csv", "Canada (provinces)":"data_predicted/CA_prov_data_p.csv","Europe": "data/EU_data.csv",
-         "Europe (historic)":"data/EU_hist_data.csv", "Israel": "data_predicted/IL_data_p.csv","LatAm":"data_predicted/LA_data_p.csv"}
+         "Europe (historic)":"data/EU_hist_data.csv", "Israel": "data_predicted/IL_data_p.csv","LatAm":"data_predicted/LA_data_p.csv",
+         "Europe (predicted)":"data_predicted/EU_data_p.csv","Europe (historic, predicted)":"data_predicted/EU_hist_data_p.csv"}
 
 
 def family_color(family):
@@ -31,12 +32,8 @@ def family_color(family):
             return 'olivedrab'
         case 'Miscellaneous':
             return "dimgrey"
-        case 'CA':
-            return 'maroon'
-        case 'IL':
-            return 'blue'
         case _:
-            return 'peru'
+            return 'darkorange'
 
 
 def visualizeFile(countries, years,showYears=False):
@@ -51,7 +48,11 @@ def visualizeFile(countries, years,showYears=False):
     # get data
     for a_year in years:
         this_year = int(a_year)
-        this_info = df.loc[df["year"] == this_year, ["country", "party", "year", "family", "lrecon", "galtan"]].dropna()
+        try:
+            this_info = df.loc[df["year"] == this_year, ["country", "party", "party_name","party_en", "year", "family", "lrecon", "galtan"]].dropna()
+        except KeyError:
+            this_info = df.loc[
+                df["year"] == this_year, ["country", "party", "year", "family", "lrecon", "galtan"]].dropna()
 
         this_info["lrecon"] = pd.to_numeric(this_info["lrecon"], errors="coerce")
         this_info["galtan"] = pd.to_numeric(this_info["galtan"], errors="coerce")
@@ -79,7 +80,7 @@ def visualizeFile(countries, years,showYears=False):
     ax.set_xlabel("Economic Left–Right")
     ax.set_ylabel("Social Progressive–Conservative")
     annot = ax.annotate(
-        "", xy=(0, 0), xytext=(10, 10), textcoords="offset points",
+        "", xy=(0, 0), xytext=(-10, 10), textcoords="offset points",
         bbox=dict(boxstyle="round,pad=0.1", fc="white", alpha=0.9),
         arrowprops=dict(arrowstyle="->")
     )
@@ -90,9 +91,19 @@ def visualizeFile(countries, years,showYears=False):
         ind = event.ind[0]
         row = info.iloc[ind]
         annot.xy = (row["lrecon"], row["galtan"])
-        text = (f"{row['party']} ({row['country']})\n {row['year']}"
+
+        if "party_name" not in row.keys():
+            text = (f"{row['party']} ({row['country']})\n {row['year']}"
                 f"Econ: {row['lrecon']:.2f}, Soc: {row['galtan']:.2f}")
+        else:
+            if row['party_name'] == row['party_en']:
+                text = (f"{row['party_name']}\n({row['country']}\n{row['year']})"
+                    f"Econ: {row['lrecon']:.2f}, Soc: {row['galtan']:.2f}")
+            else:
+                text = (f"{row['party_name']}\n{row['party_en']}\n({row['country']}, {row['year']})"
+                    f"\nEcon: {row['lrecon']:.2f}, Soc: {row['galtan']:.2f}")
         annot.set_text(text)
+        annot.set_size(8)
         annot.set_visible(True)
         fig.canvas.draw_idle()
 

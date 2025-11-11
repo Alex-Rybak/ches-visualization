@@ -19,7 +19,7 @@ ignore = ["id","party_id","party","party_name","party_en","party_id","family","c
           "multicult_salience","redist_salience","climate_change_salience","environment_salience"]
 
 
-files = ['CA_data.csv', 'CA_prov_data.csv', 'IL_data.csv', 'LA_data.csv']
+files = ['CA_data.csv', 'CA_prov_data.csv', 'IL_data.csv', 'LA_data.csv','EU_data.csv','EU_hist_data.csv']
 
 def preprocess(df,columns): # function that renders data into form suitable for processing by dropping unwanted columns and
     # using imputation to fill in the blanks
@@ -63,7 +63,11 @@ for file in files:
 
     RF_class.fit(euro_train, europe_fam)
     predicted_fam = RF_class.predict(this_train)
-    this_df.insert(6,"family",predicted_fam)
+    try:
+        this_df.insert(6,"family",predicted_fam)
+    except ValueError:
+        this_df.drop("family",axis='columns',inplace=True)
+        this_df.insert(6, "family", predicted_fam)
     this_csv = "data_predicted/"+ file.split('.')[0]+"_p.csv"
     this_df.to_csv(this_csv, encoding='utf-8')
 
