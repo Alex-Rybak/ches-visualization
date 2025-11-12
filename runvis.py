@@ -17,7 +17,7 @@ for set in sets:
     if len(countries_years[set]) > 1:
         years += input(f"Enter the years you wish to see data for (available years: {countries_years[set]}): ").split(", ")
     else:
-        years.append(countries_years[set])
+        years += countries_years[set]
 showYears = input("Show years? Y/n")=="Y"
 
 
